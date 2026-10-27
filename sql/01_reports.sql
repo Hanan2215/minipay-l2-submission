@@ -44,8 +44,7 @@ SELECT
 FROM transactions
 WHERE status = 'PROCESSING'
   AND created_at < NOW() - INTERVAL '15 minutes'
-ORDER BY created_at, id
-LIMIT 20;
+ORDER BY created_at, id;
 
 
 -- 4. Duplicate transaction references
@@ -154,4 +153,3 @@ SELECT
 FROM transactions
 WHERE completed_at IS NOT NULL
   AND completed_at >= created_at;
-
