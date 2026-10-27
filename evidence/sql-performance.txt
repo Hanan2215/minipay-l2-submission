@@ -1,0 +1,40 @@
+=== TRANSACTION SEARCH PERFORMANCE ===
+ matching_rows
+---------------
+             1
+(1 row)
+
+ANALYZE
+=== BEFORE OPTIMIZATION ===
+                                                QUERY PLAN
+----------------------------------------------------------------------------------------------------------
+ Seq Scan on transactions  (cost=0.00..1241.00 rows=1 width=44) (actual time=2.570..3.104 rows=1 loops=1)
+   Filter: ((transaction_ref)::text = 'TXN00040001'::text)
+   Rows Removed by Filter: 49999
+   Buffers: shared hit=616
+ Planning:
+   Buffers: shared hit=23
+ Planning Time: 0.109 ms
+ Execution Time: 3.119 ms
+(8 rows)
+
+=== CREATE SEARCH INDEX ===
+CREATE INDEX
+=== AFTER OPTIMIZATION ===
+                                                                   QUERY PLAN
+------------------------------------------------------------------------------------------------------------------------------------------------
+ Index Scan using idx_transactions_transaction_ref on transactions  (cost=0.29..8.31 rows=1 width=44) (actual time=0.025..0.026 rows=1 loops=1)
+   Index Cond: ((transaction_ref)::text = 'TXN00040001'::text)
+   Buffers: shared hit=1 read=2
+ Planning:
+   Buffers: shared hit=16 read=1
+ Planning Time: 0.213 ms
+ Execution Time: 0.051 ms
+(7 rows)
+
+=== INDEX VERIFICATION ===
+            indexname             |                                              indexdef
+----------------------------------+----------------------------------------------------------------------------------------------------
+ idx_transactions_transaction_ref | CREATE INDEX idx_transactions_transaction_ref ON public.transactions USING btree (transaction_ref)
+ transactions_pkey                | CREATE UNIQUE INDEX transactions_pkey ON public.transactions USING btree (id)
+(2 rows)
