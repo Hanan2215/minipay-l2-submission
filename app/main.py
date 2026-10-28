@@ -294,3 +294,10 @@ def customer_payments(customer_id: int):
 
     return {"customer_id": customer_id,
             "payments": [serialize(r) for r in rows]}
+
+
+from pathlib import Path
+from fastapi.staticfiles import StaticFiles
+
+WEB_DIR = Path(__file__).resolve().parent.parent / "web"
+app.mount("/ui", StaticFiles(directory=str(WEB_DIR), html=True), name="ui")

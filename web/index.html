@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MiniPay Support Console</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f2f5fa;
+  color: #17253c;
+}
+header {
+  background: #17365d;
+  color: white;
+  padding: 28px;
+}
+header h1 { margin: 0; }
+header p { color: #d4e4f6; }
+main {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 15px;
+}
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 12px #00000012;
+}
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+label {
+  display: block;
+  font-weight: bold;
+  margin: 15px 0 6px;
+}
+input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #b8c3d2;
+  border-radius: 6px;
+}
+button {
+  background: #1765be;
+  color: white;
+  border: 0;
+  border-radius: 6px;
+  padding: 12px 20px;
+  margin-top: 16px;
+  cursor: pointer;
+}
+button:hover { background: #104b91; }
+pre {
+  padding: 15px;
+  background: #edf2f8;
+  border-radius: 6px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.status { font-weight: bold; margin-top: 12px; }
+@media (max-width: 700px) {
+  .grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>MiniPay Support Console</h1>
+  <p>Transaction Search & Demo Payment Testing</p>
+</header>
+
+<main>
+  <div class="card">
+    <h2>API Authentication</h2>
+    <label for="apiKey">API Key</label>
+    <input type="password" id="apiKey"
+           placeholder="Enter your API key">
+  </div>
+
+  <div class="grid">
+    <div class="card">
+      <h2>Transaction Search</h2>
+      <label for="reference">Transaction Reference</label>
+      <input id="reference" value="TXN00000001">
+      <button id="searchBtn">Search Transaction</button>
+      <div id="searchStatus" class="status"></div>
+      <pre id="searchResult">Results will appear here</pre>
+    </div>
+
+    <div class="card">
+      <h2>Create Demo Payment</h2>
+      <label for="customerId">Customer ID</label>
+      <input type="number" id="customerId" value="1">
+      <label for="amount">Amount</label>
+      <input type="number" id="amount"
+             value="125.50" step="0.01">
+      <button id="payBtn">Create Test Payment</button>
+      <div id="payStatus" class="status"></div>
+      <pre id="paymentResult">Results will appear here</pre>
+    </div>
+  </div>
+</main>
+
+<script>
+const el = id => document.getElementById(id);
+
+function headers() {
+  return {"X-API-Key": el("apiKey").value};
+}
+
+async function display(response, statusId, resultId) {
+  const data = await response.json();
+  el(statusId).textContent = "HTTP " + response.status;
+  el(statusId).style.color =
+    response.ok ? "green" : "darkred";
+  el(resultId).textContent = JSON.stringify(data, null, 2);
+}
+
+el("searchBtn").onclick = async () => {
+  try {
+    const reference = encodeURIComponent(
+      el("reference").value.trim()
+    );
+    const response = await fetch(
+      "/api/payments/reference/" + reference,
+      {headers: headers()}
+    );
+    await display(response, "searchStatus", "searchResult");
+  } catch (e) {
+    el("searchStatus").textContent = "Request failed";
+    el("searchResult").textContent = String(e);
+  }
+};
+
+el("payBtn").onclick = async () => {
+  try {
+    const response = await fetch("/api/payments", {
+      method: "POST",
+      headers: {
+        ...headers(),
+        "Content-Type": "application/json",
+        "Idempotency-Key": crypto.randomUUID()
+      },
+      body: JSON.stringify({
+        customer_id: Number(el("customerId").value),
+        amount: el("amount").value
+      })
+    });
+    await display(response, "payStatus", "paymentResult");
+  } catch (e) {
+    el("payStatus").textContent = "Request failed";
+    el("paymentResult").textContent = String(e);
+  }
+};
+</script>
+
+</body>
+</html>
