@@ -1,0 +1,41 @@
+=== RESOURCE AVAILABILITY ===
+               total        used        free      shared  buff/cache   available
+Mem:           7.8Gi       2.4Gi       509Mi       122Mi       5.2Gi       5.3Gi
+Swap:             0B          0B          0B
+Filesystem      Size  Used Avail Use% Mounted on
+/dev/sda1        44G   20G   25G  44% /
+=== KUBERNETES WORKLOADS ===
+NAME                               READY   STATUS    RESTARTS      AGE
+pod/minipay-api-5b96dfb7f4-2qkzq   1/1     Running   1 (11h ago)   11h
+pod/minipay-api-5b96dfb7f4-7j4lx   1/1     Running   1 (11h ago)   11h
+pod/minipay-db-0                   1/1     Running   0             11h
+
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/minipay-api   2/2     2            2           11h
+
+NAME                          READY   AGE
+statefulset.apps/minipay-db   1/1     11h
+
+NAME                                                  STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/database-storage-minipay-db-0   Bound    pvc-018015e0-3ef0-4f36-b989-830e0c176675   2Gi        RWO            local-path     <unset>                 11h
+=== API LOG INSPECTION ===
+INFO:     10.42.0.1:59134 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     10.42.0.1:59144 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:39514 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:55574 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     10.42.0.1:55576 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:47410 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:54162 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     10.42.0.1:54176 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:34228 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:47526 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     10.42.0.1:47532 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:57076 - "GET /health HTTP/1.1" 200 OK
+=== RESOURCE METRICS ===
+NAME                           CPU(cores)   MEMORY(bytes)
+minipay-api-5b96dfb7f4-2qkzq   9m           41Mi
+minipay-api-5b96dfb7f4-7j4lx   6m           37Mi
+minipay-db-0                   22m          29Mi
+=== RANCHER PREREQUISITES ===
+Helm not installed
+Rancher namespace not present

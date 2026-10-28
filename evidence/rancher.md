@@ -37,3 +37,29 @@ records.
 ## Limitation
 Static manifest validation and Podman smoke testing do not
 establish successful live Kubernetes deployment.
+
+
+## Live K3s Operational Verification — 29 October 2026
+
+MiniPay was deployed to a live single-node K3s cluster.
+
+Verified results:
+- Kubernetes control-plane node Ready
+- API Deployment 2/2 available
+- PostgreSQL StatefulSet 1/1 ready
+- Database PVC Bound, 2 GiB
+- In-cluster functional tests 8/8 passed
+- Deployment rollout completed successfully
+
+Evidence:
+- evidence/kubernetes-live-status.txt
+- evidence/kubernetes-service-tests.txt
+- evidence/operations-and-rancher-check.txt
+
+Rancher management UI has not been verified.
+The current VM's limited resources require feasibility review
+before installing an additional management platform.
+
+Kubernetes CLI evidence demonstrates workload visibility,
+pod status, logs and rollout status, but is not presented
+as Rancher UI evidence.
