@@ -1,0 +1,13 @@
+============================= test session starts ==============================
+platform linux -- Python 3.11.2, pytest-9.2.0, pluggy-1.7.0 -- /home/hanan/projects/minipay-l2-submission/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /home/hanan/projects/minipay-l2-submission
+plugins: anyio-4.15.1
+collecting ... collected 4 items
+
+tests/api/test_minipay_api.py::test_health PASSED                        [ 25%]
+tests/api/test_minipay_api.py::test_authentication PASSED                [ 50%]
+tests/api/test_minipay_api.py::test_customer_payment_workflow PASSED     [ 75%]
+tests/api/test_minipay_api.py::test_error_handling PASSED                [100%]
+
+============================== 4 passed in 0.25s ===============================
