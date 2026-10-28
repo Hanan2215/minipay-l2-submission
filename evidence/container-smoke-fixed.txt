@@ -1,0 +1,5 @@
+=== MINIPAY CONTAINER SMOKE TEST ===
+API_HTTP=200
+WEB_UI_HTTP=200
+CAUSE: Container file permission denied
+FIX: Dockerfile ownership corrected

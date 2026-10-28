@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: minipay-settings
+  namespace: minipay
+data:
+  MINIPAY_DATABASE_URL: "dbname=minipay"
+  PGHOST: "minipay-db"
+  PGPORT: "5432"
+  PGUSER: "minipay_user"
