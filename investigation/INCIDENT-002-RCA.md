@@ -16,7 +16,7 @@ Original evidence: starter/kubernetes/broken-api.yaml
 
 ## Investigation and Correction
 Preserved the original starter manifest unchanged.
-Created corrected manifests under k8s/ with matching labels,
+Created corrected manifests under kubernetes/ with matching labels,
 ports, configuration, probes, resource limits and database PVC.
 
 The initial Podman image also failed with PermissionError
