@@ -1,3 +1,31 @@
+# Live Kubernetes Verification Update — 29 October 2026
+
+The earlier sections document the investigation at their
+original verification stage.
+
+Subsequent K3s deployment and functional testing confirmed:
+
+- Kubernetes node Ready.
+- MiniPay API Deployment: 2/2 available replicas.
+- PostgreSQL StatefulSet: 1/1 running.
+- PostgreSQL PVC: Bound, 2 GiB.
+- Live Kubernetes Service functional tests: 8/8 passed.
+- Customer creation, payment creation and idempotent retry passed.
+- API health, Web UI, authentication, payment lookup and
+  customer history passed.
+
+Evidence:
+- evidence/kubernetes-service-tests.txt
+- evidence/kubernetes-live-status.txt
+
+The in-cluster application is functioning. External
+port-forward testing encountered connection problems;
+external access has not been independently accepted.
+
+Rancher UI verification remains pending.
+
+---
+
 # INCIDENT-002 — Application Unavailable After Deployment
 
 Priority: P1

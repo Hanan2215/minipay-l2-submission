@@ -1,0 +1,23 @@
+=== K3S NODE ===
+NAME               STATUS   ROLES           AGE   VERSION
+abdul-virtualbox   Ready    control-plane   11h   v1.36.5+k3s1
+=== MINIPAY WORKLOADS ===
+NAME                               READY   STATUS    RESTARTS      AGE
+pod/minipay-api-5b96dfb7f4-2qkzq   1/1     Running   1 (11h ago)   11h
+pod/minipay-api-5b96dfb7f4-7j4lx   1/1     Running   1 (11h ago)   11h
+pod/minipay-db-0                   1/1     Running   0             11h
+
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/minipay-api   2/2     2            2           11h
+
+NAME                          READY   AGE
+statefulset.apps/minipay-db   1/1     11h
+
+NAME                  TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/minipay-api   ClusterIP   10.43.216.130   <none>        80/TCP     11h
+service/minipay-db    ClusterIP   10.43.195.254   <none>        5432/TCP   11h
+
+NAME                                                  STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/database-storage-minipay-db-0   Bound    pvc-018015e0-3ef0-4f36-b989-830e0c176675   2Gi        RWO            local-path     <unset>                 11h
+=== API ROLLOUT ===
+deployment "minipay-api" successfully rolled out
