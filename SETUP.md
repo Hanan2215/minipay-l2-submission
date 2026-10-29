@@ -57,6 +57,19 @@ and /ui/. Container-to-database connectivity was not verified.
 ## Kubernetes
 Manifests: kubernetes/
 
-Actual Kubernetes/Rancher deployment remains unverified.
-A cluster, credentials Secret, suitable image availability
-and persistent storage are required for a live rollout.
+Live deployment verified on 29 October 2026:
+- K3s namespace minipay: API Deployment 2/2 Ready.
+- PostgreSQL StatefulSet 1/1 Ready; PVC 2 GiB Bound.
+- In-cluster functional tests: 8/8 PASS.
+- Rancher v2.15.2: Helm deployed, revision 2.
+- Rancher HTTPS: HTTP 200 with the local trusted CA.
+- Rancher UI: local cluster, MiniPay API and database verified.
+
+Verification commands (on the configured K3s VM):
+  sudo k3s kubectl -n minipay get deployments,statefulsets,pods,pvc
+  sudo k3s kubectl -n cattle-system get deployment rancher
+  sudo env KUBECONFIG=/etc/rancher/k3s/k3s.yaml helm status rancher -n cattle-system
+
+Rancher evidence: evidence/rancher.md
+Deployment uses local TLS and local Kubernetes credentials.
+External MiniPay port-forward access was not independently verified.

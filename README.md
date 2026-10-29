@@ -1,26 +1,43 @@
-# Paysys Labs – Implementation & L2 Support Engineer Technical Assessment
+# MiniPay — Implementation & L2 Support Engineer Assessment
 
-**Time window:** Submit within 48 hours of receiving the assessment.  
-**Expected hands-on effort:** Approximately 6–10 hours.  
-**Submission:** Public GitHub repository.
+MiniPay is the Paysys Labs technical assessment implementation covering Linux, Git, PostgreSQL, REST APIs, Python support automation, testing, containers, Kubernetes, Rancher and incident investigation.
 
-## Objective
-This assessment evaluates practical ability to implement, operate, troubleshoot, test, and automate support for a small enterprise-style application. We value investigation, engineering judgement, automation, documentation, and effective use of AI more than memorized commands.
+## Completed Work
 
-## Scenario
-You are joining an implementation/L2 support team responsible for **MiniPay**, a small payment-processing application. It consists of a web UI, REST services, and a relational database. Your assignment is to deploy and operate the environment, demonstrate database and web-service proficiency, automate testing, build a support utility, and investigate production-style incidents.
+- PostgreSQL database and SQL investigation reports.
+- FastAPI payment service with API-key authentication and idempotency.
+- Python read-only L2 support utility and automated tests.
+- Browser UI with Playwright verification.
+- Container build and smoke testing.
+- Live K3s deployment: MiniPay API 2/2 and PostgreSQL 1/1.
+- Kubernetes service functional tests: 8/8 passed.
+- Rancher v2.15.2 deployed and verified through its management UI.
+- Three incident investigation and root-cause reports.
 
-## Skills assessed
-1. Linux
-2. Git
-3. SQL
-4. Kubernetes
-5. Rancher
-6. Python utilities/automation
-7. Web services
-8. API test automation
-9. GUI test automation
-10. L2 troubleshooting and documentation
-11. Effective and responsible use of AI tools
+## Setup and Documentation
 
-Read `INSTRUCTIONS.md` before starting. The files under `requirements/` define the tasks. The `incidents/` folder contains support incidents to investigate.
+- [Setup instructions](SETUP.md)
+- [Architecture](ARCHITECTURE.md)
+- [AI usage disclosure](AI_USAGE.md)
+- [Original assessment instructions](INSTRUCTIONS.md)
+- [Assessment requirements](requirements/)
+
+## Verification Evidence
+
+- [Rancher operational verification](evidence/rancher.md)
+- [Rancher live terminal verification](evidence/rancher-live-verification.txt)
+- [Rancher dashboard screenshot](evidence/rancher-dashboard.png)
+- [MiniPay API in Rancher](evidence/rancher-deployments.png)
+- [PostgreSQL in Rancher](evidence/rancher-statefulsets.png)
+- [Kubernetes functional tests](evidence/kubernetes-service-tests.txt)
+- [Kubernetes status](evidence/kubernetes-live-status.txt)
+
+## Incident Reports
+
+- [Incident 001](investigation/INCIDENT-001-RCA.md)
+- [Incident 002](investigation/INCIDENT-002-RCA.md)
+- [Incident 003](investigation/INCIDENT-003-RCA.md)
+
+## Environment Notes
+
+The verified deployment runs on a local single-node K3s VirtualBox environment. Rancher uses a local custom TLS certificate and is not a public production deployment. External MiniPay port-forward access was not independently accepted; in-cluster service tests passed.

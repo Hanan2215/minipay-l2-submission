@@ -1,65 +1,46 @@
 # Rancher / Kubernetes Operational Evidence
 
-## Verified Local Environment
-- Podman available.
-- Container image built successfully.
-- Container API and UI returned HTTP 200.
-- Kubernetes YAML static validation passed.
-- kubectl, kind and minikube were not installed during inspection.
+## Environment
 
-## Rancher Status
-A live Rancher deployment and cluster workload inspection
-have not been performed or verified.
+- Verification date: 29 October 2026
+- Rancher version: v2.15.2
+- Kubernetes: K3s v1.36.5+k3s1
+- Cluster: local, single-node VirtualBox
+- Rancher namespace: cattle-system
+- MiniPay namespace: minipay
+- TLS: locally generated private CA and custom Kubernetes TLS secret
 
-No Rancher screenshots or live pod statuses are claimed.
+## Verified Results
 
-## Intended Rancher Verification Procedure
-1. Connect/import the Kubernetes cluster into Rancher.
-2. Open the minipay namespace and inspect workloads.
-3. Verify API Deployment replicas and database StatefulSet.
-4. Inspect pod readiness, events and container logs.
-5. Inspect ConfigMaps and environment-variable references
-   without exposing Secret values.
-6. Check CPU/memory usage and health indicators.
-7. Perform a controlled rollout/restart and observe readiness.
-8. Test API and UI access after rollout.
+- Rancher Helm release: deployed, revision 2.
+- Rancher Deployment: 1/1 Ready.
+- Rancher HTTPS: HTTP 200, verified using the local CA.
+- Rancher dashboard login and local cluster access: successful.
+- MiniPay API Deployment visible in Rancher: 2/2 Ready.
+- PostgreSQL StatefulSet visible in Rancher: 1/1 Ready.
+- PostgreSQL PVC: Bound, capacity 2 GiB.
+- MiniPay API /health: HTTP 200, database connected.
+- In-cluster functional tests: 8/8 PASS.
 
-## Equivalent Kubernetes Commands
-kubectl get pods,deploy,sts,svc -n minipay
-kubectl describe deployment minipay-api -n minipay
-kubectl logs deployment/minipay-api -n minipay
-kubectl rollout status deployment/minipay-api -n minipay
-kubectl top pods -n minipay
+## Evidence
 
-These are documented procedures, not verified execution
-records.
+- rancher-live-verification.txt — final live checks
+- rancher-dashboard.png — Rancher local cluster
+- rancher-deployments.png — MiniPay API in Rancher
+- rancher-statefulsets.png — PostgreSQL in Rancher
+- kubernetes-service-tests.txt — functional test results
+- kubernetes-live-status.txt — cluster and workload status
 
-## Limitation
-Static manifest validation and Podman smoke testing do not
-establish successful live Kubernetes deployment.
+## Scope and Limitations
 
+Rancher was deployed using a custom TLS certificate without
+cert-manager. An earlier cert-manager image-pull attempt
+encountered Quay CDN timeouts, but this did not prevent the
+final Rancher deployment.
 
-## Live K3s Operational Verification — 29 October 2026
+The setup is local, single-node and not publicly hosted.
+External MiniPay port-forward access was not independently
+accepted; in-cluster functional testing passed.
 
-MiniPay was deployed to a live single-node K3s cluster.
-
-Verified results:
-- Kubernetes control-plane node Ready
-- API Deployment 2/2 available
-- PostgreSQL StatefulSet 1/1 ready
-- Database PVC Bound, 2 GiB
-- In-cluster functional tests 8/8 passed
-- Deployment rollout completed successfully
-
-Evidence:
-- evidence/kubernetes-live-status.txt
-- evidence/kubernetes-service-tests.txt
-- evidence/operations-and-rancher-check.txt
-
-Rancher management UI has not been verified.
-The current VM's limited resources require feasibility review
-before installing an additional management platform.
-
-Kubernetes CLI evidence demonstrates workload visibility,
-pod status, logs and rollout status, but is not presented
-as Rancher UI evidence.
+No database reset or MiniPay application restart was required
+to complete Rancher verification.

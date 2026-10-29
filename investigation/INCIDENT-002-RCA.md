@@ -22,14 +22,17 @@ The in-cluster application is functioning. External
 port-forward testing encountered connection problems;
 external access has not been independently accepted.
 
-Rancher UI verification remains pending.
+Rancher v2.15.2 management UI verification completed:
+the local cluster was accessible, MiniPay API showed 2/2 Ready,
+and PostgreSQL StatefulSet showed 1/1 Ready.
+See evidence/rancher.md and the three Rancher screenshots.
 
 ---
 
 # INCIDENT-002 — Application Unavailable After Deployment
 
 Priority: P1
-Status: Configuration corrected; live rollout unverified.
+Status: Resolved — configuration corrected and live rollout verified on 29 October 2026.
 
 ## Observations and Root Causes
 The supplied starter Kubernetes manifest has these defects:
@@ -61,10 +64,13 @@ Evidence:
 evidence/container-smoke-fixed.txt
 evidence/kubernetes-validation.txt
 
-## Remaining Work
-Actual Kubernetes deployment, pod readiness, service access,
-database connectivity and Rancher verification are pending.
-Live service recovery is not claimed.
+## Final Verification Outcome
+The original investigation above records the initial validation stage.
+Subsequent live K3s verification confirmed API 2/2 Ready,
+PostgreSQL 1/1 Ready, database connected, and 8/8 functional
+tests passed. Rancher UI verification also completed.
+External MiniPay port-forward access remains unverified.
+See evidence/kubernetes-service-tests.txt and evidence/rancher.md.
 
 ## Prevention
 Validate manifests in CI, check selectors and ports,
