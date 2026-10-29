@@ -35,9 +35,22 @@ Real API keys and database passwords must be supplied through
 a Kubernetes Secret at deployment time. Secrets are not
 committed to Git.
 
-## Verification Status
-Static root-cause investigation completed.
+## Verification: Initial Stage and Final Outcome
 
-Actual cluster rollout, pod readiness, database initialization,
-service connectivity and Rancher verification remain pending.
-No successful cluster deployment is claimed.
+At the initial static-analysis stage, real cluster rollout and Rancher
+verification were pending; static YAML checks alone were insufficient.
+
+**Subsequent verified outcome (29 October 2026):**
+- K3s Kubernetes node Ready; API Deployment 2/2 Ready.
+- PostgreSQL StatefulSet 1/1 Ready; 2 GiB PVC Bound.
+- In-cluster service/API tests 8/8 PASS, including DB connectivity.
+- Rancher v2.15.2 Helm release deployed and dashboard accessible.
+- External MiniPay port-forward was not independently accepted.
+
+Evidence: `evidence/kubernetes-live-status.txt`,
+`evidence/kubernetes-service-tests.txt`,
+`evidence/rancher-live-verification.txt`, and
+`evidence/rancher.md`.
+
+No live database mutation, restart or rollout is required merely to
+update this investigation record.

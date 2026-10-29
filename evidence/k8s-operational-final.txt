@@ -1,0 +1,47 @@
+=== CAPTURE DATE (LOCAL) ===
+2026-10-29T16:59:27+05:00
+=== CLUSTER ===
+NAME               STATUS   ROLES           AGE   VERSION
+abdul-virtualbox   Ready    control-plane   26h   v1.36.5+k3s1
+=== MINIPAY WORKLOADS ===
+NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/minipay-api   2/2     2            2           25h
+
+NAME                          READY   AGE
+statefulset.apps/minipay-db   1/1     25h
+
+NAME                               READY   STATUS    RESTARTS      AGE
+pod/minipay-api-5b96dfb7f4-2qkzq   1/1     Running   5 (35m ago)   25h
+pod/minipay-api-5b96dfb7f4-7j4lx   1/1     Running   5 (35m ago)   25h
+pod/minipay-db-0                   1/1     Running   0             25h
+
+NAME                                                  STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+persistentvolumeclaim/database-storage-minipay-db-0   Bound    pvc-018015e0-3ef0-4f36-b989-830e0c176675   2Gi        RWO            local-path     <unset>                 25h
+=== API ROLLOUT STATUS ===
+deployment "minipay-api" successfully rolled out
+=== API LOGS: FILTERED HEALTH REQUESTS ONLY ===
+Found 2 pods, using pod/minipay-api-5b96dfb7f4-2qkzq
+INFO:     10.42.0.1:49552 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:49558 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     10.42.0.1:60870 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:34122 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:34136 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     10.42.0.1:35602 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:38588 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:38596 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     10.42.0.1:34974 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:54812 - "GET /health HTTP/1.1" 200 OK
+INFO:     10.42.0.1:54814 - "GET /openapi.json HTTP/1.1" 200 OK
+INFO:     10.42.0.1:60130 - "GET /health HTTP/1.1" 200 OK
+=== RESOURCE METRICS (may be unavailable) ===
+NAME                           CPU(cores)   MEMORY(bytes)
+minipay-api-5b96dfb7f4-2qkzq   4m           43Mi
+minipay-api-5b96dfb7f4-7j4lx   3m           36Mi
+minipay-db-0                   8m           25Mi
+=== NONSECRET CONFIGURATION ===
+replicas=2
+container=api image=minipay-api:1.0
+
+=== RANCHER DEPLOYMENT ===
+NAME      READY   UP-TO-DATE   AVAILABLE   AGE
+rancher   1/1     1            1           13h

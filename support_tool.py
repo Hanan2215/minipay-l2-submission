@@ -3,6 +3,7 @@
 
 import argparse
 import json
+import logging
 import os
 import sys
 from contextlib import closing
@@ -13,6 +14,8 @@ from pathlib import Path
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from dotenv import load_dotenv
+
+logger = logging.getLogger("minipay.support_tool")
 
 
 def evaluate(transaction, callbacks, now):
@@ -141,7 +144,12 @@ def main():
     )
     parser.add_argument("--transaction", required=True)
     parser.add_argument("--json", action="store_true")
+    parser.add_argument("--verbose", action="store_true", help="Show operational messages on stderr")
     args = parser.parse_args()
+    logging.basicConfig(
+        level=logging.INFO if args.verbose else logging.WARNING,
+        format="%(levelname)s: %(message)s",
+    )
 
     reference = args.transaction.strip()
     if not reference:
@@ -150,12 +158,14 @@ def main():
     try:
         report = investigate(reference)
     except psycopg2.Error as exc:
-        print(
-            f"Database investigation failed (SQLSTATE: "
-            f"{exc.pgcode or 'connection'})",
-            file=sys.stderr,
+        logger.error(
+            "Database investigation failed (SQLSTATE: %s)",
+            exc.pgcode or "connection",
         )
         return 3
+
+    logger.info("Investigation complete: matches=%s, duplicates=%s",
+                report["matches"], report["duplicate_reference"])
 
     if args.json:
         print(json.dumps(report, indent=2, default=json_value))
@@ -171,17 +181,23 @@ def main():
         for item in report["results"]:
             t = item["transaction"]
             print(f"\nTransaction ID: {t['id']}")
+            print("Transaction Reference:", t["transaction_ref"])
             print("Customer ID:", t["customer_id"])
+            print("Customer Reference:", t.get("customer_ref") or "N/A")
+            print("Customer Name:", t.get("customer_name") or "N/A")
             print("Amount:", t["amount"])
             print("Status:", t["status"])
             print("Failure Code:", t["failure_code"])
+            print("Created At:", t.get("created_at") or "N/A")
+            print("Completed At:", t.get("completed_at") or "N/A")
             print("Callback Attempts:", len(item["callbacks"]))
 
             for cb in item["callbacks"]:
                 print(
                     f"  Attempt {cb['attempt_no']}: "
                     f"HTTP {cb['http_status']} / "
-                    f"{cb['callback_status']}"
+                    f"{cb['callback_status']} / "
+                    f"At {cb.get('attempted_at') or 'N/A'}"
                 )
 
             print("Flags:", ", ".join(item["flags"]) or "NONE")

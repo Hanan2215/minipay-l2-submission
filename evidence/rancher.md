@@ -44,3 +44,43 @@ accepted; in-cluster functional testing passed.
 
 No database reset or MiniPay application restart was required
 to complete Rancher verification.
+
+
+## Kubernetes Operations Evidence and Boundaries
+
+The following **previously captured** evidence documents Kubernetes
+operations, not a claim that each action was clicked in Rancher:
+
+- API application log inspection and pod CPU/memory readings:
+  `evidence/operations-and-rancher-check.txt`.
+- Deployment rollout status (success):
+  `evidence/kubernetes-live-status.txt`.
+- Deployment, StatefulSet and cluster visibility in Rancher screenshots:
+  `evidence/rancher-dashboard.png`, `evidence/rancher-deployments.png`,
+  `evidence/rancher-statefulsets.png`.
+- Configuration (without confidential Secret values) is inspectable in
+  `kubernetes/01-settings.yaml`, `kubernetes/03-database.yaml`, and
+  `kubernetes/04-api.yaml`.
+
+The submitted screenshots do **not** independently prove Rancher UI
+log-viewing, configuration inspection, or an interactive scaling action.
+Those are not claimed complete in this document. The original assignment
+requests scaling **or rollout/restart** evidence; the captured Kubernetes
+rollout-status result addresses the rollout-status portion, but does not
+prove a user-triggered rollout/restart.
+
+### Safe read-only commands on the existing K3s VM
+
+```bash
+sudo k3s kubectl -n minipay get deployment minipay-api
+sudo k3s kubectl -n minipay rollout status deployment/minipay-api --timeout=20s
+sudo k3s kubectl -n minipay get pods -o wide
+sudo k3s kubectl -n minipay top pods
+sudo k3s kubectl -n minipay logs deployment/minipay-api --tail=20
+sudo k3s kubectl -n minipay get configmap minipay-settings -o name
+```
+
+Review log output for sensitive data before saving or publishing it.
+Never run `kubectl get secret -o yaml` for public evidence. Avoid
+scaling, restarts, apply/delete commands or DB reset on the working
+cluster merely to create screenshots.

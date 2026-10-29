@@ -258,3 +258,27 @@ of a deployed application failure.
 
 Final API success validation remains pending
 until the MiniPay application is running.
+
+
+## 16. Subsequent Live Deployment Evidence (29 October 2026)
+
+Sections 5, 9, 11, 13 and 14 above are historical observations from
+27 October, before the application and Rancher were deployed. They are
+not the final project status. The following later, separately captured
+artifacts supersede the earlier *pending* notes; original observations
+are retained for audit chronology.
+
+- Kubernetes API Deployment 2/2 Ready, database StatefulSet 1/1 Ready,
+  database PVC Bound: `evidence/kubernetes-live-status.txt`.
+- Application logs and workload metrics (historical capture):
+  `evidence/operations-and-rancher-check.txt`.
+- In-cluster API/UI/authentication/payment functional tests 8/8 PASS:
+  `evidence/kubernetes-service-tests.txt`.
+- Rancher deployed, HTTPS 200, API health 200 with DB connected:
+  `evidence/rancher-live-verification.txt`.
+
+The local health-check script was syntax-checked and executed in
+sections 13–15 above. The local API check failed at that earlier stage
+because no API was listening on `127.0.0.1:8000`; live K3s service
+health was verified later and separately. Do not treat the early
+health-check execution as a subsequent successful local run.

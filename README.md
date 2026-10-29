@@ -21,6 +21,8 @@ MiniPay is the Paysys Labs technical assessment implementation covering Linux, G
 - [AI usage disclosure](AI_USAGE.md)
 - [Original assessment instructions](INSTRUCTIONS.md)
 - [Assessment requirements](requirements/)
+- [Python support utility](python/README.md)
+- [UI automation scope and CI plan](tests/ui/NOTES.md)
 
 ## Verification Evidence
 
@@ -41,3 +43,11 @@ MiniPay is the Paysys Labs technical assessment implementation covering Linux, G
 ## Environment Notes
 
 The verified deployment runs on a local single-node K3s VirtualBox environment. Rancher uses a local custom TLS certificate and is not a public production deployment. External MiniPay port-forward access was not independently accepted; in-cluster service tests passed.
+
+## Git Workflow
+
+The assessment implementation was developed through incremental commits
+on the `main` branch; no feature-branch merge was claimed. The original
+`submission-v1.0` tag and later `submission-v1.1` Rancher-evidence tag
+are retained as historical snapshots. Subsequent documentation/tests
+must be new commits/tags, not a retag of previously submitted versions.
